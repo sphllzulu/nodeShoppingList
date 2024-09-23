@@ -8,7 +8,7 @@ const DATA_DIR = path.join(__dirname, 'data');
 // a folder called data is created if it doesn't exist, and a shopping-list.json file is initialized to store the shopping list.
 const SHOPPING_LIST_FILE = path.join(DATA_DIR, 'shopping-list.json');
 
-// File Manager functions
+// checks if a directory called data exists, if not it creates a directory using mkdirSync
 function createDirectory() {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR);
@@ -16,18 +16,20 @@ function createDirectory() {
   }
 }
 
-// 
+// this function checks to see if the json file exists, if not it will be created using writeFileSync
 function createJSONFile() {
   if (!fs.existsSync(SHOPPING_LIST_FILE)) {
     fs.writeFileSync(SHOPPING_LIST_FILE, JSON.stringify([]));
     console.log('Shopping list JSON file created.');
   }
 }
-
+// this file reads the contents of the shopping-list.json file, and it is decoded from binary using utf8
 function readJSONFile() {
   return JSON.parse(fs.readFileSync(SHOPPING_LIST_FILE, 'utf8'));
 }
 
+// The data is converted to a JSON string using JSON.stringify(data, null, 2). The null, 2 part is for formatting, making the JSON more readable by indenting with 2 spaces.
+// the string is then written to the file with writeFileSync
 function writeJSONFile(data) {
   fs.writeFileSync(SHOPPING_LIST_FILE, JSON.stringify(data, null, 2));
 }
@@ -133,7 +135,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
-// Initialize file system and start server
+
 createDirectory();
 createJSONFile();
 
